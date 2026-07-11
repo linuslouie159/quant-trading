@@ -1,8 +1,19 @@
-# VectorBT Backtesting Project
+# quant-trading — momentum backtester + live paper-trading bot
 
-A local, cost-aware, overfitting-resistant base for backtesting crypto and stock
-trading strategies with [VectorBT](https://vectorbt.dev/). Guardrails (always model
-costs, always split in-sample / out-of-sample) are baked in — see [CLAUDE.md](CLAUDE.md).
+A cost-aware, overfitting-resistant framework for backtesting crypto and stock trading
+strategies — with a companion bot that runs the validated strategy on a **paper account**
+and sends daily signals over Telegram. Built for people who want to test a trading idea
+*honestly*: fees and slippage in every run, in-sample and out-of-sample always separated.
+
+**Built with:** Python 3.12 · [VectorBT](https://vectorbt.dev/) · pandas · ccxt (exchange data) · a Telegram bot for live alerts.
+
+**What I learned / decisions:** The hard part of a backtester isn't the maths — it's not
+lying to yourself. Every guardrail here exists because it's easy to get a beautiful equity
+curve that means nothing: zero-cost fills, or "validating" on the same data you tuned on.
+So costs are modelled centrally in `utils/costs.py` and can never be skipped, the
+in-sample / out-of-sample split is enforced and labelled on every result, and strategies
+plug in through a single `generate_signals()` contract so swapping ideas doesn't touch the
+plumbing. See [CLAUDE.md](CLAUDE.md) for the full set of standing guardrails.
 
 ## Setup
 
