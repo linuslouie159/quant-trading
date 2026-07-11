@@ -1,0 +1,33 @@
+# Slim, LIVE-ONLY dependencies for the always-on box (Raspberry Pi / Linux).
+#
+# This is NOT the full requirements.txt. It deliberately OMITS the heavy
+# backtesting stack (vectorbt, numba, llvmlite, scipy, scikit-learn, plotly,
+# matplotlib, jupyter/ipython, ccxt, yfinance) -- none of which the live runners
+# or the Telegram bot import. Those stay on the desktop, where backtesting runs.
+#
+# Everything here ships as a prebuilt aarch64 wheel, so `pip install` is fast and
+# requires no C/Rust toolchain on the Pi.
+#
+# Install on the Pi:
+#   python3 -m venv .venv
+#   .venv/bin/pip install --upgrade pip
+#   .venv/bin/pip install -r requirements-live.txt
+#
+# Versions are left unpinned on purpose for the first install (newest wheels).
+# AFTER it runs cleanly, pin for reproducibility:
+#   .venv/bin/pip freeze > requirements-live.lock.txt
+
+# --- Data / signals (paper_trader.py, ts_momentum_paper_trader.py, strategies/) ---
+pandas
+
+# --- Broker API: TradingClient + StockHistoricalDataClient (utils/alpaca_client*.py) ---
+alpaca-py
+
+# --- .env loading (all live scripts call load_dotenv) ---
+python-dotenv
+
+# --- Telegram push notifier (notify.py POSTs to sendMessage via requests) ---
+requests
+
+# --- Always-on Telegram bot (telegram_bot.py: telegram, telegram.ext) ---
+python-telegram-bot

@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(foreach \\($d in @\\(\"data\",\"strategies\",\"backtests\",\"utils\"\\)\\) { New-Item -ItemType Directory -Force -Path $d | Out-Null }; Get-ChildItem -Directory | Select-Object -ExpandProperty Name)",
+      "PowerShell(& \".venv\\\\Scripts\\\\python.exe\" -c \"import vectorbt as vbt, ccxt, yfinance, pandas as pd, numpy as np, numba, plotly; print\\('vectorbt', vbt.__version__\\); print\\('ccxt', ccxt.__version__\\); print\\('pandas', pd.__version__\\); print\\('numpy', np.__version__\\); print\\('numba', numba.__version__\\); print\\('OK - all imports succeed'\\)\")",
+      "PowerShell(& \".venv\\\\Scripts\\\\python.exe\" -m pip freeze | Out-File -FilePath requirements.txt -Encoding utf8; Write-Output \"requirements.txt written \\($\\(\\(Get-Content requirements.txt\\).Count\\) lines\\)\")",
+      "PowerShell(& \".venv\\\\Scripts\\\\python.exe\" backtests\\\\starter_backtest.py)",
+      "PowerShell(& \".venv\\\\Scripts\\\\python.exe\" backtests\\\\_smoke_donchian.py)",
+      "PowerShell(& \".venv\\\\Scripts\\\\python.exe\" backtests\\\\donchian_crosscheck.py)",
+      "WebFetch(domain:docs.jesse.trade)",
+      "WebFetch(domain:github.com)",
+      "PowerShell(& \".venv\\\\Scripts\\\\python.exe\" backtests\\\\reconcile_trade1.py)",
+      "PowerShell(& \".venv\\\\Scripts\\\\python.exe\" backtests\\\\_inspect_bars.py)",
+      "mcp__jesse-mcp__get_existing_candles",
+      "mcp__jesse-mcp__import_candles",
+      "PowerShell(& \".venv\\\\Scripts\\\\python.exe\" backtests\\\\eth_crosscheck.py)",
+      "mcp__jesse-mcp__get_candle_import_status",
+      "mcp__jesse-mcp__create_backtest_draft",
+      "mcp__jesse-mcp__run_backtest",
+      "mcp__jesse-mcp__get_backtest_session",
+      "PowerShell(& \".venv\\\\Scripts\\\\python.exe\" backtests\\\\eth_crosscheck.py SOL/USDT)",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe backtests\\\\index_momentum_backtest.py)",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe -c \"import vectorbt as vbt; import pandas as pd; print\\([c for c in dir\\(vbt.Portfolio\\) if not c.startswith\\('_'\\)]\\)\")",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe _ann_tmp.py)",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe _regime_tmp.py)",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe backtests\\\\index_momentum_regimes.py)",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe _verify_band0_tmp.py)",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe _band_select_tmp.py)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; .venv\\\\Scripts\\\\python.exe _table_tmp.py; Remove-Item _table_tmp.py -ErrorAction SilentlyContinue)",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe utils\\\\alpaca_client_tsmom.py)",
+      "PowerShell(.venv\\\\Scripts\\\\python.exe live\\\\ts_momentum_paper_trader.py --entries-today-only)",
+      "PowerShell(Get-ScheduledTask | Where-Object { $_.TaskName -match 'alpaca|paper|trend|momentum|trade|strat|daily' } | Select-Object TaskName, State, TaskPath | Format-Table -AutoSize)",
+      "PowerShell($cands = 250,251,252,240; foreach \\($c in $cands\\) { $ip = \"192.168.50.$c\"; $r = Test-Connection -ComputerName $ip -Count 1 -Quiet -ErrorAction SilentlyContinue; if \\($r\\) { Write-Output \"$ip : IN USE \\(pick another\\)\" } else { Write-Output \"$ip : free\" } })"
+    ]
+  }
+}

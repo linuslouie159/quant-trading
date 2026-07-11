@@ -1,0 +1,43 @@
+# systemd unit for the always-on Telegram monitor bot (live/telegram_bot.py).
+# Linux replacement for start_bot_hidden.vbs + the Windows Startup folder.
+# READ-ONLY / PAPER-ONLY -- the bot never places orders (CLAUDE.md).
+#
+# ===========================================================================
+# BEFORE INSTALLING: replace the two placeholders below with your real values:
+#   __USER__  -> your Pi login username (e.g. linus)         [run: whoami]
+#   __ROOT__  -> absolute path to the project on the Pi
+#                (e.g. /home/linus/trading)                  [run: pwd in the repo]
+# ===========================================================================
+#
+# INSTALL (system service -- starts at boot, before you log in):
+#   sudo cp live/tradingbot.service /etc/systemd/system/tradingbot.service
+#   # then edit /etc/systemd/system/tradingbot.service to fill in the placeholders
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now tradingbot.service
+#
+# CHECK / LOGS:
+#   systemctl status tradingbot
+#   journalctl -u tradingbot -f          # live tail
+#
+# STOP / RESTART:
+#   sudo systemctl restart tradingbot
+#   sudo systemctl stop tradingbot
+
+[Unit]
+Description=Telegram monitor bot for the paper-trading project (read-only, paper-only)
+# Wait for the network so long-polling can reach Telegram on boot.
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=__ROOT__
+# -u = unbuffered, so log lines reach the journal immediately.
+ExecStart=__ROOT__/.venv/bin/python -u live/telegram_bot.py
+# Keep it alive: restart on any crash, after a short pause.
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

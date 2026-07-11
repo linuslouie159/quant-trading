@@ -1,0 +1,13 @@
+# Direct (top-level) dependencies for this project.
+# Install with:  .venv\Scripts\python.exe -m pip install -r requirements.in
+# requirements.txt is the full pinned lockfile (pip freeze) for exact reproduction.
+vectorbt
+ccxt
+yfinance
+pandas
+numpy
+numba
+plotly
+alpaca-py
+python-dotenv
+python-telegram-bot

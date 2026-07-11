@@ -1,0 +1,26 @@
+# Virtual environment
+.venv/
+
+# Cached price data
+data/
+
+# Live alerting runtime state (last signal, peak equity)
+live/state/
+
+# Live runtime artifacts (logs + bot process lock)
+live/logs/
+*.log
+*.lock
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Secrets -- API keys never get committed
+.env
+.env.tsmom
